@@ -4,25 +4,35 @@
 #
 Name     : perl-Text-Levenshtein
 Version  : 0.13
-Release  : 1
+Release  : 2
 URL      : https://cpan.metacpan.org/authors/id/N/NE/NEILB/Text-Levenshtein-0.13.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/N/NE/NEILB/Text-Levenshtein-0.13.tar.gz
 Summary  : 'calculate the Levenshtein edit distance between two strings'
 Group    : Development/Tools
-License  : Artistic-1.0-Perl
-Requires: perl-Text-Levenshtein-man
+License  : Artistic-1.0 Artistic-1.0-Perl GPL-1.0
+Requires: perl-Text-Levenshtein-license = %{version}-%{release}
+BuildRequires : buildreq-cpan
 
 %description
 Text::Levenshtein is an implementation of the Levenshtein edit distance in Perl.
 If you're not familiar with this algorithm, a good place to start is
 the wikipedia page:
 
-%package man
-Summary: man components for the perl-Text-Levenshtein package.
+%package dev
+Summary: dev components for the perl-Text-Levenshtein package.
+Group: Development
+Provides: perl-Text-Levenshtein-devel = %{version}-%{release}
+
+%description dev
+dev components for the perl-Text-Levenshtein package.
+
+
+%package license
+Summary: license components for the perl-Text-Levenshtein package.
 Group: Default
 
-%description man
-man components for the perl-Text-Levenshtein package.
+%description license
+license components for the perl-Text-Levenshtein package.
 
 
 %prep
@@ -50,10 +60,12 @@ make TEST_VERBOSE=1 test
 
 %install
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/perl-Text-Levenshtein
+cp LICENSE %{buildroot}/usr/share/package-licenses/perl-Text-Levenshtein/LICENSE
 if test -f Makefile.PL; then
-make pure_install PERL_INSTALL_ROOT=%{buildroot}
+make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
-./Build install --installdirs=site --destdir=%{buildroot}
+./Build install --installdirs=vendor --destdir=%{buildroot}
 fi
 find %{buildroot} -type f -name .packlist -exec rm -f {} ';'
 find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null ';'
@@ -62,8 +74,12 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/site_perl/5.26.1/Text/Levenshtein.pm
+/usr/lib/perl5/vendor_perl/5.26.1/Text/Levenshtein.pm
 
-%files man
+%files dev
 %defattr(-,root,root,-)
 /usr/share/man/man3/Text::Levenshtein.3
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/perl-Text-Levenshtein/LICENSE
