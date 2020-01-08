@@ -4,13 +4,14 @@
 #
 Name     : perl-Text-Levenshtein
 Version  : 0.13
-Release  : 9
+Release  : 10
 URL      : https://cpan.metacpan.org/authors/id/N/NE/NEILB/Text-Levenshtein-0.13.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/N/NE/NEILB/Text-Levenshtein-0.13.tar.gz
 Summary  : 'calculate the Levenshtein edit distance between two strings'
 Group    : Development/Tools
 License  : Artistic-1.0 Artistic-1.0-Perl GPL-1.0
 Requires: perl-Text-Levenshtein-license = %{version}-%{release}
+Requires: perl-Text-Levenshtein-perl = %{version}-%{release}
 BuildRequires : buildreq-cpan
 
 %description
@@ -22,6 +23,7 @@ the wikipedia page:
 Summary: dev components for the perl-Text-Levenshtein package.
 Group: Development
 Provides: perl-Text-Levenshtein-devel = %{version}-%{release}
+Requires: perl-Text-Levenshtein = %{version}-%{release}
 
 %description dev
 dev components for the perl-Text-Levenshtein package.
@@ -35,14 +37,24 @@ Group: Default
 license components for the perl-Text-Levenshtein package.
 
 
+%package perl
+Summary: perl components for the perl-Text-Levenshtein package.
+Group: Default
+Requires: perl-Text-Levenshtein = %{version}-%{release}
+
+%description perl
+perl components for the perl-Text-Levenshtein package.
+
+
 %prep
 %setup -q -n Text-Levenshtein-0.13
+cd %{_builddir}/Text-Levenshtein-0.13
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
+export LANG=C.UTF-8
 if test -f Makefile.PL; then
 %{__perl} Makefile.PL
 make  %{?_smp_mflags}
@@ -52,7 +64,7 @@ else
 fi
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
@@ -61,7 +73,7 @@ make TEST_VERBOSE=1 test
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/perl-Text-Levenshtein
-cp LICENSE %{buildroot}/usr/share/package-licenses/perl-Text-Levenshtein/LICENSE
+cp %{_builddir}/Text-Levenshtein-0.13/LICENSE %{buildroot}/usr/share/package-licenses/perl-Text-Levenshtein/ac6003ce40240de25b30d7e17ee93cb8616443be
 if test -f Makefile.PL; then
 make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
@@ -74,7 +86,6 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.28.2/Text/Levenshtein.pm
 
 %files dev
 %defattr(-,root,root,-)
@@ -82,4 +93,8 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/perl-Text-Levenshtein/LICENSE
+/usr/share/package-licenses/perl-Text-Levenshtein/ac6003ce40240de25b30d7e17ee93cb8616443be
+
+%files perl
+%defattr(-,root,root,-)
+/usr/lib/perl5/vendor_perl/5.30.1/Text/Levenshtein.pm
