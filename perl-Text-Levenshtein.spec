@@ -4,7 +4,7 @@
 #
 Name     : perl-Text-Levenshtein
 Version  : 0.13
-Release  : 10
+Release  : 11
 URL      : https://cpan.metacpan.org/authors/id/N/NE/NEILB/Text-Levenshtein-0.13.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/N/NE/NEILB/Text-Levenshtein-0.13.tar.gz
 Summary  : 'calculate the Levenshtein edit distance between two strings'
@@ -97,4 +97,4 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files perl
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.30.1/Text/Levenshtein.pm
+/usr/lib/perl5/vendor_perl/5.30.2/Text/Levenshtein.pm
