@@ -4,7 +4,7 @@
 #
 Name     : perl-Text-Levenshtein
 Version  : 0.14
-Release  : 17
+Release  : 18
 URL      : https://cpan.metacpan.org/authors/id/N/NE/NEILB/Text-Levenshtein-0.14.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/N/NE/NEILB/Text-Levenshtein-0.14.tar.gz
 Summary  : 'calculate the Levenshtein edit distance between two strings'
